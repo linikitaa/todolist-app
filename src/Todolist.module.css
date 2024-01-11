@@ -1,0 +1,26 @@
+.todolist {
+    border: 2px solid #ffa4a4;
+    border-radius: 5px;
+    padding: 10px;
+    height: max-content;
+    max-height: 300px;
+    background-color: #ffc8c8;
+}
+
+.errorBorder {
+    border: 2px solid red;
+}
+
+.errorText {
+    color: red;
+}
+
+.filterWrap button{
+    border: 1px solid #e09f9f;;
+    border-radius: 3px;
+    margin-right: 10px;
+}
+
+.filterActive {
+    background-color: #ffa4a4;
+}
