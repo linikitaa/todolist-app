@@ -44,9 +44,6 @@ function App() {
         ]
     });
 
-
-
-
     function removeTask(taskId: string, todoId: string) {
         setTasks({...tasks, [todoId]: tasks[todoId].filter(el => el.taskId !== taskId)})
     }
@@ -78,6 +75,16 @@ function App() {
         setTasks({...tasks,[newTodo.todoId]:[]})
     }
 
+    function changeTaskTitle (todolistId: string, taskId: string, newValue: string) {
+        // setTasks({...tasks,[todolistId]:{...tasks[todolistId].map(el=>el.taskId === taskId ? {...el, title: newValue}:el)}})
+        setTasks({...tasks,[todolistId]:tasks[todolistId].map(el=>el.taskId === taskId ? {...el, title:newValue}:el)})
+    }
+
+    function changeTodoTitle (todolistId: string, newValue: string) {
+        // setTodolists([...todolists.map(el=> el.todoId === todolistId ? {...el, title:newValue} :el)])
+        setTodolists(todolists.map(todo => (todo.todoId === todolistId ? { ...todo, title: newValue } : todo)));
+    }
+
     return (
         <div className="App">
             <AddItemForm callBack={addNewTodo}/>
@@ -101,6 +108,8 @@ function App() {
                             changeFilter={changeFilter}
                             removeTodolist={removeTodolist}
                             filter={tl.filter}
+                            changeTaskTitle={changeTaskTitle}
+                            changeTodoTitle={changeTodoTitle}
                         />
                 })
             }
