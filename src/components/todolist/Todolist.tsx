@@ -58,7 +58,7 @@ export const Todolist: React.FC<TodolistProps> = (props) => {
                                 checked={t.isDone}
                                 onChange={()=> {onChangeStatusHandler(t.taskId,t.isDone)}}
                             />
-                            <span>{t.title}</span>
+                            <EditableSpan title={t.title}/>
                             <Button
                                 callback={() => {
                                     removeTaskHandler(t.taskId)
@@ -84,3 +84,12 @@ export const Todolist: React.FC<TodolistProps> = (props) => {
     )
 }
 
+
+type EditableSpanProps = {
+    title:string
+}
+function EditableSpan (props:EditableSpanProps) {
+    return (
+        <span>{props.title}</span>
+    )
+}

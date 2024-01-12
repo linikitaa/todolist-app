@@ -3,7 +3,6 @@ import './App.css';
 import {Todolist} from './components/todolist/Todolist';
 import {v1} from 'uuid';
 import {AddItemForm} from "./components/addItemForm/AddItemForm";
-import * as tls from "tls";
 
 export type TodolistType = {
     todoId: string
@@ -16,9 +15,9 @@ export type TasksType = {
     isDone: boolean
 }
 
-// export type TasksStateType = {
-//     [key: string]: TasksType[]
-// }
+export type TasksStateType = {
+    [key: string]: TasksType[]
+}
 
 export type FilterValuesType = "all" | "active" | "completed";
 
@@ -27,12 +26,12 @@ function App() {
     let todoId1 = v1();
     let todoId2 = v1();
 
-    let [todolists, setTodolists] = useState<Array<TodolistType>>([
+    let [todolists, setTodolists] = useState<TodolistType[]>([
         {todoId: todoId1, title: "What to learn", filter: "all"},
         {todoId: todoId2, title: "What to buy", filter: "all"}
     ])
 
-    let [tasks, setTasks] = useState({
+    let [tasks, setTasks] = useState<TasksStateType>({
         [todoId1]: [
             {taskId: v1(), title: "HTML&CSS", isDone: true},
             {taskId: v1(), title: "JS", isDone: false},
@@ -46,13 +45,15 @@ function App() {
     });
 
 
+
+
     function removeTask(taskId: string, todoId: string) {
         setTasks({...tasks, [todoId]: tasks[todoId].filter(el => el.taskId !== taskId)})
     }
 
     function addTask(todoId: string, title: string) {
         let newTask = {taskId: v1(), title, isDone: false}
-        setTasks({...tasks, [todoId]: [...tasks[todoId], newTask]})
+        setTasks({...tasks, [todoId]: [newTask,...tasks[todoId]]})
     }
 
     function changeStatus(todolistId: string, taskId: string, isDone: boolean) {
@@ -71,17 +72,15 @@ function App() {
         setTodolists([...todolists.filter(el=>el.todoId !== todolistId)])
     }
 
-    function addNewTodo(title:string) {
-        let newTodo:TodolistType =  {todoId: v1(), title, filter: "all"}
+    function addNewTodo (title:string) {
+        let newTodo:TodolistType = {todoId: v1(), title, filter: "all"}
         setTodolists([newTodo,...todolists])
-        setTasks({...tasks, [newTodo.todoId] : []})
+        setTasks({...tasks,[newTodo.todoId]:[]})
     }
 
     return (
         <div className="App">
-            <AddItemForm
-                callBack={addNewTodo}
-            />
+            <AddItemForm callBack={addNewTodo}/>
             {
                 todolists.map(tl => {
                     let tasksForTodolist = tasks[tl.todoId]
