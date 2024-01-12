@@ -1,8 +1,7 @@
-import React from 'react';
-import {FilterValuesType, TasksType} from '../../App';
-import {Button} from "../../Button";
+import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
+import {FilterValuesType, TasksType} from './App';
+import {Button} from "./Button";
 import s from './Todolist.module.css'
-import {AddItemForm} from "../addItemForm/AddItemForm";
 
 type TodolistProps = {
     id: string
@@ -19,9 +18,30 @@ type TodolistProps = {
 export const Todolist: React.FC<TodolistProps> = (props) => {
     let {id, title, tasks, removeTask,addTask,changeStatus,changeFilter,removeTodolist,filter, ...res} = props
 
+    let[error,setError]=useState<string|null>(null)
+    let[newTask,setNewTask]=useState('')
     const removeTaskHandler = (taskId: string) => {
         removeTask(taskId, id)
     }
+
+    const onChangeHandler = (e:ChangeEvent<HTMLInputElement>)=> {
+        setNewTask(e.currentTarget.value)
+    }
+    const addTaskHandler = () => {
+        if(newTask.trim() !== '') {
+            addTask(id, newTask.trim())
+            setNewTask('')
+        }
+        else {
+            setError('Error')
+        }
+    }
+
+    const onKeyDownHandler = (e:KeyboardEvent<HTMLInputElement>)=> {
+        setError(null)
+        if(e.key === 'Enter') {addTaskHandler()}
+    }
+
     const onChangeStatusHandler = (taskId:string, isDone:boolean) => {
         changeStatus(id,taskId,isDone)
     }
@@ -39,19 +59,28 @@ export const Todolist: React.FC<TodolistProps> = (props) => {
     const removeTodolistHandler = () => {
         removeTodolist(id)
     }
-
-    const addNewTask =(title: string)=> {
-        addTask(id, title)
-    }
     return (
         <div className={s.todolist}>
             <h3> {title}
                 <Button callback={removeTodolistHandler} name={'X'}/>
             </h3>
-            <AddItemForm callBack={addNewTask}/>
+            <div>
+                <input
+                    value={newTask}
+                    onChange={onChangeHandler}
+                    className={error ? s.errorBorder : ''}
+                    onKeyDown={onKeyDownHandler}
+                />
+                <Button
+                    name={'+'}
+                    callback={addTaskHandler}
+                />
+                {error && <div className={s.errorText}>{'Text is not valid'}</div>}
+            </div>
             <div>
                 {
                     tasks.map(t => {
+
                         return <div id={t.taskId}>
                             <input
                                 type="checkbox"
