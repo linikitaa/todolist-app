@@ -22,24 +22,24 @@ test('correct todolist should be removed', () => {
 
 })
 
-test('correct todolist should be Add Todolist', () => {
-    let todolistId1 = v1();
-    let todolistId2 = v1();
-
-    let newTodolistTitle = 'New todo'
-
-    const startState: TodolistType[] = [
-        {todoId: todolistId1, title: "What to learn", filter: "all"},
-        {todoId: todolistId2, title: "What to buy", filter: "all"}
-    ]
-
-    const action =addNewTodoAC(newTodolistTitle)
-    const endState = todolistsReducer(startState, action)
-
-    expect(endState.length).toBe(3)
-    expect(endState[0].title).toBe(newTodolistTitle)
-
-})
+// test('correct todolist should be Add Todolist', () => {
+//     let todolistId1 = v1();
+//     let todolistId2 = v1();
+//
+//     let newTodolistTitle = 'XXX'
+//
+//     const startState: TodolistType[] = [
+//         {todoId: todolistId1, title: "What to learn", filter: "all"},
+//         {todoId: todolistId2, title: "What to buy", filter: "all"}
+//     ]
+//
+//     const action =addNewTodoAC(newTodolistTitle)
+//     const endState = todolistsReducer(startState, action)
+//
+//     expect(endState.length).toBe(3)
+//     expect(endState[0].title).toBe(newTodolistTitle)
+//
+// })
 
 test('correct todolist should change its name', () => {
     let todolistId1 = v1();

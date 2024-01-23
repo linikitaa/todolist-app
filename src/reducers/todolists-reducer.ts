@@ -1,6 +1,8 @@
 import {FilterValuesType, TodolistType} from "../App";
 import {v1} from "uuid";
 
+export let newTodoId = v1()
+
 type ChangeFilterAC = ReturnType<typeof changeFilterAC>
 type RemoveTodolistAC = ReturnType<typeof removeTodolistAC>
 type ChangeTodoTitleAC = ReturnType<typeof changeTodoTitleAC>
@@ -47,8 +49,10 @@ export const todolistsReducer = (state:TodolistType[], action:ActionType):Todoli
             return state.map(el=> el.todoId === action.payload.todolistId ?{...el, title:action.payload.title} : el)
         }
         case 'ADD-TODO': {
-            let newTodo: TodolistType = {todoId: v1(), title:action.payload.title, filter: "all"}
+            let newTodo: TodolistType = {todoId: newTodoId, title:action.payload.title, filter: "all"}
+            console.log(newTodo)
             return [newTodo, ...state]
+
         }
         default: return state
     }

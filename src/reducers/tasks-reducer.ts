@@ -1,5 +1,6 @@
 import {TasksStateType, TodolistType} from "../App";
 import {v1} from "uuid";
+import {newTodoId} from "./todolists-reducer";
 
 export const tasksReducer = (state:TasksStateType, action:tasksReducer):TasksStateType=> {
     switch (action.type) {
@@ -18,7 +19,7 @@ export const tasksReducer = (state:TasksStateType, action:tasksReducer):TasksSta
                 el.taskId === action.payload.taskId ? {...el, isDone: !action.payload.isDone} : el)}
         }
         case 'ADD-TODO': {
-            let newTodo: TodolistType = {todoId: v1(), title:action.payload.title, filter: "all"}
+            let newTodo: TodolistType = {todoId: newTodoId, title:action.payload.title, filter: "all"}
             return {...state, [newTodo.todoId]: []}
         }
         case 'CHANGE-TITLE': {
