@@ -1,9 +1,13 @@
 import React from 'react';
 import {FilterValuesType, TasksType} from '../../App';
-import {Button} from "../../Button";
+import IconButton from '@mui/material/IconButton';
+import Checkbox from '@mui/material/Checkbox';
+import Button from '@mui/material/Button';
 import s from './Todolist.module.css'
 import {AddItemForm} from "../addItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan";
+import {Delete} from '@mui/icons-material'
+
 
 type TodolistProps = {
     id: string
@@ -60,44 +64,69 @@ export const Todolist: React.FC<TodolistProps> = (props) => {
             <h3><EditableSpan
                 title={title}
                 onChange={onChangeTitleHandler}/>
-                <Button callback={removeTodolistHandler} name={'X'}/>
+                <IconButton
+                    color="error"
+                    onClick={removeTodolistHandler}>
+                    <Delete/>
+                </IconButton >
+                {/*<Button callback={removeTodolistHandler} name={'X'}/>*/}
             </h3>
             <AddItemForm callBack={addNewTask}/>
             <div>
                 {
                     tasks.map(t => {
                         return <div id={t.taskId}>
-                            <input
-                                type="checkbox"
+                            <Checkbox
+                                size={'small'}
                                 checked={t.isDone}
                                 onChange={() => {
                                     onChangeStatusHandler(t.taskId, t.isDone)
                                 }}
                             />
+                            {/*<input*/}
+                            {/*    type="checkbox"*/}
+                            {/*    checked={t.isDone}*/}
+                            {/*    onChange={() => {*/}
+                            {/*        onChangeStatusHandler(t.taskId, t.isDone)*/}
+                            {/*    }}*/}
+                            {/*/>*/}
                             <EditableSpan
                                 title={t.title}
                                 onChange={(newValue: string) => {
                                     onChangeTaskHandler(props.id, t.taskId, newValue)
                                 }}/>
-                            <Button
-                                callback={() => {
+                            <IconButton
+                                size='small'
+                                onClick={() => {
                                     removeTaskHandler(t.taskId)
-                                }}
-                                name={'X'}/>
+                                }}>
+                                <Delete/>
+                            </IconButton >
+                            {/*<MyButton*/}
+                            {/*    callback={() => {*/}
+                            {/*        removeTaskHandler(t.taskId)*/}
+                            {/*    }}*/}
+                            {/*    name={'X'}/>*/}
                         </div>
                     })
                 }
             </div>
             <div className={s.filterWrap}>
                 <Button
-                    className={filter === 'all' ? s.filterActive : ''}
-                    callback={onAllClickHandler} name={'All'}/>
+                    color={"info"}
+                    variant={filter === 'all' ? 'contained' : 'text'}
+                    onClick={onAllClickHandler}>All
+                </Button>
                 <Button
-                    className={filter === 'active' ? s.filterActive : ''}
-                    callback={onActiveClickHandler} name={'Active'}/>
+                    color={"success"}
+                    variant={filter === 'active' ? 'contained' : 'text'}
+                    onClick={onActiveClickHandler}>Active
+                </Button>
                 <Button
-                    className={filter === 'completed' ? s.filterActive : ''}
-                    callback={onCompletedClickHandler} name={'Completed'}/>
+                    color={'warning'}
+                    variant={filter === 'completed' ? 'contained' : 'text'}
+                    onClick={onCompletedClickHandler} >Completed
+                </Button>
 
             </div>
         </div>

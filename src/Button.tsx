@@ -1,12 +1,11 @@
 import React from 'react';
-import * as dns from "dns";
 
 export  type ButtonProps = {
     callback:()=>void
     name:string
     className?:string
 }
-export const Button = (props:ButtonProps) => {
+export const MyButton = (props:ButtonProps) => {
 
     const onClickHandler = ()=> {
         props.callback()

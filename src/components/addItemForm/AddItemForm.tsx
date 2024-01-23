@@ -1,6 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import {Button} from "../../Button";
-import s from "../todolist/Todolist.module.css";
+import IconButton from '@mui/material/IconButton';
+import {TextField} from "@mui/material";
+import { AddCircleOutline } from '@mui/icons-material';
 
 export type AddItemFormProps = {
     callBack:(title:string)=>void
@@ -20,7 +21,7 @@ export const AddItemForm:React.FC<AddItemFormProps> = (props) => {
             setNewTask('')
         }
         else {
-            setError('Error')
+            setError('Text is not valid')
         }
     }
 
@@ -32,17 +33,31 @@ export const AddItemForm:React.FC<AddItemFormProps> = (props) => {
 
     return (
         <div>
-            <input
+            <TextField
+                size={"small"}
+                label={'Type value'}
                 value={newTask}
                 onChange={onChangeHandler}
-                className={error ? s.errorBorder : ''}
+                error={!!error}
                 onKeyDown={onKeyDownHandler}
+                helperText={error}
             />
-            <Button
-                name={'+'}
-                callback={addTaskHandler}
-            />
-            {error && <div className={s.errorText}>{'Text is not valid'}</div>}
+            {/*<input*/}
+            {/*    value={newTask}*/}
+            {/*    onChange={onChangeHandler}*/}
+            {/*    className={error ? s.errorBorder : ''}*/}
+            {/*    onKeyDown={onKeyDownHandler}*/}
+            {/*/>*/}
+            {/*<MyButton*/}
+            {/*    name={'+'}*/}
+            {/*    callback={addTaskHandler}*/}
+            {/*/>*/}
+            <IconButton
+                color={"primary"}
+                size={'medium'}
+                onClick={addTaskHandler}
+            ><AddCircleOutline/></IconButton>
+            {/*{error && <div className={s.errorText}>{'Text is not valid'}</div>}*/}
         </div>
     );
 };
