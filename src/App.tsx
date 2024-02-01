@@ -17,13 +17,13 @@ import {
     changeTodoTitleAC,
     removeTodolistAC,
     todolistsReducer
-} from "./reducers/todolists-reducer";
+} from "./state/todolists-reducer";
 import {
     addTaskAC,
     changeStatusAC,
     removeTaskAC,
     tasksReducer
-} from "./reducers/tasks-reducer";
+} from "./state/tasks-reducer";
 
 export type TodolistType = {
     todoId: string

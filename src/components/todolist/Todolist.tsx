@@ -28,7 +28,7 @@ export const Todolist: React.FC<TodolistProps> = (props) => {
         removeTask, addTask, changeStatus, changeFilter, removeTodolist,
         filter,changeTaskTitle,changeTodoTitle, ...res} = props
 
-    const removeTaskHandler = (taskId: string) => {
+    const removeTaskHandler = (taskId: string, id:string) => {
         removeTask(taskId, id)
     }
     const onAllClickHandler = () => {
@@ -102,7 +102,7 @@ export const Todolist: React.FC<TodolistProps> = (props) => {
                             <IconButton
                                 size='small'
                                 onClick={() => {
-                                    removeTaskHandler(t.taskId)
+                                    removeTaskHandler(t.taskId, props.id)
                                 }}>
                                 <Delete/>
                             </IconButton >
