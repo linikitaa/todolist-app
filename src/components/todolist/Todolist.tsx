@@ -1,12 +1,12 @@
 import React from 'react';
 import {FilterValuesType, TasksType} from '../../App';
 import IconButton from '@mui/material/IconButton';
-import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import s from './Todolist.module.css'
 import {AddItemForm} from "../addItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan";
 import {Delete} from '@mui/icons-material'
+import {SuperCheckbox} from "../SuperCheckbox";
 
 
 type TodolistProps = {
@@ -31,10 +31,6 @@ export const Todolist: React.FC<TodolistProps> = (props) => {
     const removeTaskHandler = (taskId: string) => {
         removeTask(taskId, id)
     }
-    const onChangeStatusHandler = (taskId: string, isDone: boolean) => {
-        changeStatus(id, taskId, isDone)
-    }
-
     const onAllClickHandler = () => {
         changeFilter("all", id)
     }
@@ -59,6 +55,10 @@ export const Todolist: React.FC<TodolistProps> = (props) => {
     const onChangeTitleHandler = (newValue: string) => {
         changeTodoTitle(id, newValue)
     }
+    const onChangeStatusHandler = (taskId: string, checked: boolean) => {
+        changeStatus(id, taskId, checked)
+    }
+
     return (
         <div className={s.todolist}>
             <h3><EditableSpan
@@ -76,13 +76,17 @@ export const Todolist: React.FC<TodolistProps> = (props) => {
                 {
                     tasks.map(t => {
                         return <div id={t.taskId}>
-                            <Checkbox
-                                size={'small'}
-                                checked={t.isDone}
-                                onChange={() => {
-                                    onChangeStatusHandler(t.taskId, t.isDone)
-                                }}
-                            />
+                            <SuperCheckbox checked={t.isDone}
+                                           callback={(checked) => {
+                                onChangeStatusHandler(t.taskId,checked)
+                            }}/>
+                            {/*<Checkbox*/}
+                            {/*    size={'small'}*/}
+                            {/*    checked={t.isDone}*/}
+                            {/*    onChange={() => {*/}
+                            {/*        onChangeStatusHandler(t.taskId, t.isDone)*/}
+                            {/*    }}*/}
+                            {/*/>*/}
                             {/*<input*/}
                             {/*    type="checkbox"*/}
                             {/*    checked={t.isDone}*/}

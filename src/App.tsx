@@ -1,4 +1,4 @@
-import React, {useReducer, useState} from 'react';
+import React, {useReducer} from 'react';
 import './App.css';
 import {Todolist} from './components/todolist/Todolist';
 import {v1} from 'uuid';
@@ -21,7 +21,6 @@ import {
 import {
     addTaskAC,
     changeStatusAC,
-    changeTaskTitleAC,
     removeTaskAC,
     tasksReducer
 } from "./reducers/tasks-reducer";
@@ -93,6 +92,7 @@ function App() {
 
     function removeTodolist(todolistId: string) {
         // setTodolists([...todolists.filter(el => el.todoId !== todolistId)])
+        delete tasks[todolistId]
         dispatchTodolists(removeTodolistAC(todolistId))
     }
 
@@ -100,8 +100,9 @@ function App() {
         // let newTodo: TodolistType = {todoId: v1(), title, filter: "all"}
         // setTodolists([newTodo, ...todolists])
         // setTasks({...tasks, [newTodo.todoId]: []})
-        dispatchTodolists(addNewTodoAC(title))
-        dispatchTasks(addNewTodoAC(title))
+        let todoListId=v1()
+        dispatchTodolists(addNewTodoAC(title,todoListId))
+        dispatchTasks(addNewTodoAC(title, todoListId))
     }
 
     function changeTaskTitle(todoId: string, taskId: string, newValue: string) {
@@ -110,7 +111,7 @@ function App() {
         //     ...tasks,
         //     [todolistId]: tasks[todolistId].map(el => el.taskId === taskId ? {...el, title: newValue} : el)
         // })
-        dispatchTasks(changeTaskTitleAC(todoId,taskId,newValue))
+        // dispatchTasks(changeTaskTitleAC(todoId,taskId,newValue))
     }
 
     function changeTodoTitle(todolistId: string, title: string) {
@@ -139,10 +140,10 @@ function App() {
                     {
                         todolists.map(tl => {
                             let tasksForTodolist = tasks[tl.todoId]
-                            if (tl.filter == "active") {
+                            if (tl.filter == "completed") {
                                 tasksForTodolist = tasks[tl.todoId].filter(el => el.isDone)
                             }
-                            if (tl.filter == "completed") {
+                            if (tl.filter == "active") {
                                 tasksForTodolist = tasks[tl.todoId].filter(el => !el.isDone)
                             }
                             return (
