@@ -47,8 +47,8 @@ export const TodolistWithRedux = (props:TodolistWithReduxProps) => {
     }
 
     let tasksForTodolist = tasks
-    if (props.filter == "completed") { tasksForTodolist = tasks.filter(el => el.isDone) }
-    if (props.filter == "active") { tasksForTodolist = tasks.filter(el => !el.isDone) }
+    if (props.filter === "completed") { tasksForTodolist = tasks.filter(el => el.isDone) }
+    if (props.filter === "active") { tasksForTodolist = tasks.filter(el => !el.isDone) }
 
     const onAllClickHandler = () => dispatch(changeFilterAC("all", props.id))
     const onActiveClickHandler = () => dispatch(changeFilterAC("active", props.id))

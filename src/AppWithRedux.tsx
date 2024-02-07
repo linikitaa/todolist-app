@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import {v1} from 'uuid';
 import {AddItemForm} from "./components/addItemForm/AddItemForm";
 import IconButton from '@mui/material/IconButton';
@@ -45,7 +44,6 @@ function AppWithRedux() {
 
     }
 
-
     return (
         <div className="App">
             <AppBar position={"static"}>
@@ -74,20 +72,6 @@ function AppWithRedux() {
                                             title={tl.title}
                                             filter={tl.filter}
                                         />
-                                        {/*<Todolist*/}
-                                        {/*    key={tl.todoId}*/}
-                                        {/*    id={tl.todoId}*/}
-                                        {/*    title={tl.title}*/}
-                                        {/*    tasks={tasksForTodolist}*/}
-                                        {/*    removeTask={removeTask}*/}
-                                        {/*    addTask={addTask}*/}
-                                        {/*    changeStatus={changeStatus}*/}
-                                        {/*    changeFilter={changeFilter}*/}
-                                        {/*    removeTodolist={removeTodolist}*/}
-                                        {/*    filter={tl.filter}*/}
-                                        {/*    changeTaskTitle={changeTaskTitle}*/}
-                                        {/*    changeTodoTitle={changeTodoTitle}*/}
-                                        {/*/>*/}
                                     </Paper>
                                 </Grid>
                             )
