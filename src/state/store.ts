@@ -6,7 +6,7 @@ import {todolistsReducer} from "./todolists-reducer";
 // мы задаём структуру нашего единственного объекта-состояния
 const rootReducer = combineReducers({
     tasks: tasksReducer,
-    todolists: todolistsReducer
+    todolist: todolistsReducer
 })
 // непосредственно создаём store
 export const store = legacy_createStore(rootReducer)

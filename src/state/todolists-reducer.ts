@@ -1,4 +1,4 @@
-import {FilterValuesType, TodolistType} from "../AppWithRedux";
+import {FilterValuesType, TodolistType} from "../types/types";
 
 
 type ChangeFilterAC = ReturnType<typeof changeFilterAC>
