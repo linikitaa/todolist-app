@@ -1,19 +1,25 @@
-import { addTaskAC, changeStatusAC, removeTaskAC, tasksReducer} from "./tasks-reducer";
+import {addTaskAC, changeStatusAC, removeTaskAC, tasksReducer, TasksStateType} from "./tasks-reducer";
 import {addNewTodoAC, removeTodolistAC} from "./todolists-reducer";
 import {v1} from "uuid";
-import {TasksStateType} from "../types/types";
+import {TaskPriorities, TaskStatuses} from "../api/todolistss-api";
 
 let startState:TasksStateType = {
-        'todolistId1': [
-            {taskId: '1', title: "HTML&CSS", isDone: true},
-            {taskId: '2', title: "JS", isDone: false},
-            {taskId: '3', title: "WB", isDone: true},
-        ],
-        'todolistId2': [
-            {taskId: '1', title: "Milk", isDone: false},
-            {taskId: '2', title: "React Book", isDone: true},
-            {taskId: '3', title: "Beer", isDone: false},
-        ]
+    'todolistId1': [
+        {id: '1', title: "HTML&CSS", status:TaskStatuses.New,addedDate:'',deadline:'',
+            order:1,description:'',priority:TaskPriorities.Middle,startDate:'',todoListId:'todolistId1'},
+        {id: '2', title: "JS", status:TaskStatuses.New,addedDate:'',deadline:'',
+            order:1,description:'',priority:TaskPriorities.Middle,startDate:'',todoListId:'todolistId1'},
+        {id: '3', title: "WB", status:TaskStatuses.Completed,addedDate:'',deadline:'',
+            order:1,description:'',priority:TaskPriorities.Middle,startDate:'',todoListId:'todolistId1'},
+    ],
+    'todolistId2': [
+        {id: '1', title: "Milk", status:TaskStatuses.New,addedDate:'',deadline:'',
+            order:1,description:'',priority:TaskPriorities.Middle,startDate:'',todoListId:'todolistId2'},
+        {id: '2', title: "React Book", status:TaskStatuses.Completed,addedDate:'',deadline:'',
+            order:1,description:'',priority:TaskPriorities.Middle,startDate:'',todoListId:'todolistId2'},
+        {id: '3', title: "Beer", status:TaskStatuses.New,addedDate:'',deadline:'',
+            order:1,description:'',priority:TaskPriorities.Middle,startDate:'',todoListId:'todolistId2'},
+    ]
     }
 
 test('correct task should be deleted from correct array', () => {
@@ -23,9 +29,9 @@ test('correct task should be deleted from correct array', () => {
 
     expect(endState['todolistId1'].length).toBe(3)
     expect(endState['todolistId2'].length).toBe(2)
-    expect(endState['todolistId2'][0].taskId).toBe('1')
-    expect(endState['todolistId2'][1].taskId).toBe('3')
-    expect(endState['todolistId2'].every(t=> t.taskId != '2')).toBeTruthy()
+    expect(endState['todolistId2'][0].id).toBe('1')
+    expect(endState['todolistId2'][1].id).toBe('3')
+    expect(endState['todolistId2'].every(t=> t.id != '2')).toBeTruthy()
 
 })
 test('correct task should be add new task', () => {
@@ -37,8 +43,8 @@ test('correct task should be add new task', () => {
     expect(endState['todolistId1'][1].title).toBe("HTML&CSS")
     expect(endState['todolistId1'].length).toBe(4)
     expect(endState['todolistId2'].length).toBe(3)
-    expect(endState['todolistId2'][0].taskId).toBeDefined()
-    expect(endState['todolistId2'][0].isDone).toBe(false)
+    expect(endState['todolistId2'][0].id).toBeDefined()
+    expect(endState['todolistId2'][0].status).toBe(false)
 
 
 })
@@ -58,12 +64,12 @@ test('new property with new array should be added when new todolist is added', (
 })
 test('correct task should be change status task', () => {
 
-    let newStatus = true
+    let newStatus = 1
     const action = changeStatusAC('todolistId1','1',newStatus)
     const endState = tasksReducer(startState, action)
 
-    expect(endState['todolistId1'][0].isDone).toBe(newStatus)
-    expect(endState['todolistId2'][0].isDone).toBe(false)
+    expect(endState['todolistId1'][0].status).toBe(newStatus)
+    expect(endState['todolistId2'][0].status).toBe(false)
 
 })
 test('property with todolistId should be deleted', () => {

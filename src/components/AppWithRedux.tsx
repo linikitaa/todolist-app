@@ -1,4 +1,3 @@
-import React from 'react';
 import {AddItemForm} from "./addItemForm/AddItemForm";
 import {TodolistWithRedux} from "./todolist/TodolistWithRedux";
 import {useAppWithRedux} from "../hooks/useAppWithRedux";
@@ -40,10 +39,10 @@ function AppWithRedux() {
                         todolist.map(tl => {
 
                             return (
-                                <Grid item key={tl.todoId}>
+                                <Grid item key={tl.id}>
                                     <Paper style={{padding:'10px'}}>
                                         <TodolistWithRedux
-                                            todoId={tl.todoId}
+                                            todoId={tl.id}
                                             title={tl.title}
                                             filter={tl.filter}
                                         />

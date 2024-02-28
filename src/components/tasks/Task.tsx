@@ -3,11 +3,11 @@ import {SuperCheckbox} from "../SuperCheckbox";
 import {EditableSpan} from "../EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import {Delete} from "@mui/icons-material";
-import {TasksType} from "../../types/types";
 import {useTasks} from "../../hooks/useTasks";
+import {TaskType} from "../../api/todolistss-api";
 
 type TasksProps = {
-    tasksForTodolist: TasksType[]
+    tasksForTodolist: TaskType[]
     todoId:string
 }
 export const Task = ({tasksForTodolist,todoId}: TasksProps) => {
@@ -22,22 +22,21 @@ export const Task = ({tasksForTodolist,todoId}: TasksProps) => {
         <div>
             {
                 tasksForTodolist.map(t => {
-                    return <div key={t.taskId}
-                                id={t.taskId}>
+                    return <div key={t.id}
+                                id={t.id}>
                         <SuperCheckbox
-                            checked={t.isDone}
-                            callback={(checked) => {
-                                onChangeStatusHandler(todoId, t.taskId, checked)
+                            callback={(status) => {
+                                onChangeStatusHandler(todoId, t.id,status)
                             }}/>
                         <EditableSpan
                             title={t.title}
                             onChange={(newValue: string) => {
-                                onChangeTaskTitle(todoId, t.taskId, newValue)
+                                onChangeTaskTitle(todoId, t.id, newValue)
                             }}/>
                         <IconButton
                             size='small'
                             onClick={() => {
-                                removeTaskHandler(todoId, t.taskId)
+                                removeTaskHandler(todoId, t.id)
                             }}>
                             <Delete/>
                         </IconButton>

@@ -1,6 +1,7 @@
 import {useCallback} from "react";
 import {changeStatusAC, changeTaskNameAC, removeTaskAC} from "../state/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
+import {TaskStatuses} from "../api/todolistss-api";
 
 export const useTasks = () => {
     const dispatch = useDispatch()
@@ -9,8 +10,8 @@ export const useTasks = () => {
         dispatch(changeTaskNameAC(todoId, taskId, newValue))
     },[])
 
-    const onChangeStatusHandler = useCallback((todoId:string,taskId: string, checked: boolean) => {
-        dispatch(changeStatusAC(todoId,taskId, checked))
+    const onChangeStatusHandler = useCallback((todoId:string,taskId: string,status: TaskStatuses) => {
+        dispatch(changeStatusAC(todoId,taskId,status))
     },[])
 
     const removeTaskHandler = useCallback((todoId:string, taskId: string) => {

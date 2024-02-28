@@ -1,14 +1,19 @@
 import {v1} from "uuid";
-import {FilterValuesType, TodolistType} from "../types/types";
-import {addNewTodoAC, changeFilterAC, changeTodoTitleAC, todolistsReducer} from "./todolists-reducer";
+import {
+    addNewTodoAC,
+    changeFilterAC,
+    changeTodoTitleAC, FilterValuesType,
+    TodolistDomainType,
+    todolistsReducer
+} from "./todolists-reducer";
 
 let todolistId1 = v1();
 let todolistId2 = v1();
 
 
-const startState: TodolistType[] = [
-    {todoId: todolistId1, title: "What to learn", filter: "all"},
-    {todoId: todolistId2, title: "What to buy", filter:"all"}
+const startState: TodolistDomainType[] = [
+    {id: todolistId1, title: "What to learn", filter: "all",order:0,addedDate:''},
+    {id: todolistId2, title: "What to buy", filter: "all",order:0,addedDate:''}
 ]
 
 test('correct todolist should be removed', () => {
@@ -19,7 +24,7 @@ test('correct todolist should be removed', () => {
     })
 
     expect(endState.length).toBe(1)
-    expect(endState[0].todoId).toBe(todolistId2)
+    expect(endState[0].id).toBe(todolistId2)
 
 })
 

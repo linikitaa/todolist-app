@@ -1,8 +1,5 @@
-import React, {useCallback} from 'react';
-
 import {EditableSpan} from "../EditableSpan";
 import {AddItemForm} from "../addItemForm/AddItemForm";
-import {SuperCheckbox} from "../SuperCheckbox";
 
 import s from "./Todolist.module.css";
 import Button from "@mui/material/Button";
@@ -11,8 +8,9 @@ import {Delete} from "@mui/icons-material";
 
 import {UseTodolistWithRedux} from "../../hooks/useTodolistWithRedux";
 
-import {FilterValuesType} from "../../types/types";
 import {Task} from "../tasks/Task";
+import {FilterValuesType} from "../../state/todolists-reducer";
+import {memo} from "react";
 
 type TodolistWithReduxProps = {
     todoId: string
@@ -21,7 +19,7 @@ type TodolistWithReduxProps = {
 
 }
 
-export const TodolistWithRedux = React.memo(({
+export const TodolistWithRedux = memo(({
                                                  todoId,
                                                  title,
                                                  filter,

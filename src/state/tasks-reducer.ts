@@ -1,8 +1,11 @@
-import {TasksStateType} from "../types/types";
 import {v1} from "uuid";
 import {AddNewTodoAC, RemoveTodolistAC} from "./todolists-reducer";
-import {TasksType} from "../types/types";
+import {TaskPriorities, TaskStatuses, TaskType} from "../api/todolistss-api";
 
+
+export type TasksStateType = {
+    [key: string]: TaskType[]
+}
 
 type TasksReducer =
     | RemoveTaskAC
@@ -30,10 +33,10 @@ export const addTaskAC = (todoId:string, title:string) => {
         payload:{todoId, title}
     }as const
 }
-export const changeStatusAC = (todoId: string, taskId: string, isDone: boolean)=> {
+export const changeStatusAC = (todoId: string, taskId: string, status: TaskStatuses)=> {
     return {
         type:'CHANGE-STATUS',
-        payload:{todoId,taskId,isDone}
+        payload:{todoId,taskId,status}
     } as const
 }
 export const changeTaskNameAC = (todoId: string, taskId: string, newValue: string)=> {
@@ -48,14 +51,15 @@ const initialState: TasksStateType = {}
 export const tasksReducer = (state:TasksStateType = initialState, action:TasksReducer):TasksStateType=> {
     switch (action.type) {
         case 'REMOVE-TASK' : {
-            return {...state, [action.payload.todoId]: state[action.payload.todoId].filter(el=> el.taskId !== action.payload.taskId)}
+            return {...state, [action.payload.todoId]: state[action.payload.todoId].filter(el=> el.id !== action.payload.taskId)}
         }
         case 'CHANGE-STATUS': {
             return {...state,[action.payload.todoId]: state[action.payload.todoId].map(el=>
-                    el.taskId === action.payload.taskId ? {...el, isDone: action.payload.isDone} : el)}
+                    el.id === action.payload.taskId ? {...el, status: action.payload.status} : el)}
         }
         case 'ADD-TASK' : {
-            let newTask:TasksType = {taskId: v1(), title:action.payload.title, isDone: false}
+            let newTask:TaskType = {id: v1(), title:action.payload.title, status:TaskStatuses.New,addedDate:'',deadline:'',
+                order:1,description:'',priority:TaskPriorities.Middle,startDate:'',todoListId:action.payload.todoId}
             return {
                 ...state, [action.payload.todoId]: [newTask,...state[action.payload.todoId]]
             }
@@ -69,7 +73,7 @@ export const tasksReducer = (state:TasksStateType = initialState, action:TasksRe
             return copyState
         }
         case 'CHANGE-TASK-NAME' : {
-            return {...state,[action.payload.todoId]:state[action.payload.todoId].map(el=>el.taskId === action.payload.taskId
+            return {...state,[action.payload.todoId]:state[action.payload.todoId].map(el=>el.id === action.payload.taskId
                 ? {...el, title:action.payload.newValue}
                     : el)}
         }
