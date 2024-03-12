@@ -7,14 +7,16 @@ export type TodolistDomainType = TodolistType &{
 
 
 type ChangeFilterAC = ReturnType<typeof changeFilterAC>
-export type RemoveTodolistAC = ReturnType<typeof removeTodolistAC>
+export type RemoveTodoAC = ReturnType<typeof removeTodoAC>
 type ChangeTodoTitleAC = ReturnType<typeof changeTodoTitleAC>
-export type AddNewTodoAC = ReturnType<typeof addNewTodoAC>
+export type AddTodoAC = ReturnType<typeof addTodoAC>
+export type SetTodolistsAC = ReturnType<typeof setTodolistsAC>
 type ActionType =
     | ChangeFilterAC
-    | RemoveTodolistAC
+    | RemoveTodoAC
     | ChangeTodoTitleAC
-    | AddNewTodoAC
+    | AddTodoAC
+    | SetTodolistsAC
 
 export const changeFilterAC = (value: FilterValuesType, todolistId: string)=> {
     return {
@@ -24,7 +26,7 @@ export const changeFilterAC = (value: FilterValuesType, todolistId: string)=> {
             todolistId}
     }as const
 }
-export const removeTodolistAC = (todoId: string) => {
+export const removeTodoAC = (todoId:string) => {
     return{
         type: 'REMOVE-TODOLIST',
         payload:{todoId}
@@ -36,13 +38,18 @@ export const changeTodoTitleAC = (todolistId: string,title: string) => {
         payload:{todolistId,title}
     } as const
 }
-export const addNewTodoAC = (title: string,todoId:string) => {
+export const addTodoAC = (todolist: TodolistType) => {
     return{
         type: 'ADD-TODO',
-        payload:{title, todoId}
+        payload:{todolist}
     } as const
 }
-
+export const setTodolistsAC = (todolists:TodolistType[]) => {
+    return{
+        type: 'SET-TODO',
+        payload:{todolists}
+    } as const
+}
 
 const initialState: TodolistDomainType[] = []
 export const todolistsReducer = (state=initialState, action:ActionType):TodolistDomainType[] => {
@@ -57,10 +64,15 @@ export const todolistsReducer = (state=initialState, action:ActionType):Todolist
             return state.map(el=> el.id === action.payload.todolistId ?{...el, title:action.payload.title} : el)
         }
         case 'ADD-TODO': {
-            return [{id: action.payload.todoId, title:action.payload.title, filter: "all",order:1,addedDate:''}, ...state]
+            return [{...action.payload.todolist, filter:'all'},...state]
+        }
+        case 'SET-TODO': {
+            return action.payload.todolists.map(el=> ({ ...el, filter:'all' }))
         }
         default: return state
     }
 }
+
+
 
 

@@ -2,13 +2,13 @@ import React from 'react';
 import IconButton from '@mui/material/IconButton';
 import {TextField} from "@mui/material";
 import {AddCircleOutline} from '@mui/icons-material';
-import {useAddItemForm} from "./useAddItemForm";
+import {useAddItemForm} from "../../hooks/useAddItemForm";
 
 export type AddItemFormProps = {
     callBack: (title: string) => void
 }
 export const AddItemForm: React.FC<AddItemFormProps> = React.memo((props) => {
-        let {callBack, ...rest} = props
+        let {callBack,...rest} = props
 
         const {
             newTask,

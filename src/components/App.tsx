@@ -1,6 +1,5 @@
 import {AddItemForm} from "./addItemForm/AddItemForm";
-import {TodolistWithRedux} from "./todolist/TodolistWithRedux";
-import {useAppWithRedux} from "../hooks/useAppWithRedux";
+import {Todolist} from "./todolist/Todolist";
 
 import IconButton from '@mui/material/IconButton';
 import AppBar from '@mui/material/AppBar';
@@ -10,13 +9,12 @@ import Grid from '@mui/material/Grid';
 import Toolbar from '@mui/material/Toolbar';
 import {Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
+import {UseApp} from "../hooks/UseApp";
 
 
+function App() {
 
-function AppWithRedux() {
-
-    const { todolist, addNewTodo} = useAppWithRedux()
-
+    const { todolist, addNewTodo} = UseApp()
 
     return (
         <div className="App">
@@ -41,7 +39,7 @@ function AppWithRedux() {
                             return (
                                 <Grid item key={tl.id}>
                                     <Paper style={{padding:'10px'}}>
-                                        <TodolistWithRedux
+                                        <Todolist
                                             todoId={tl.id}
                                             title={tl.title}
                                             filter={tl.filter}
@@ -58,4 +56,4 @@ function AppWithRedux() {
     );
 }
 
-export default AppWithRedux;
+export default App;

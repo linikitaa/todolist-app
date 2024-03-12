@@ -1,4 +1,4 @@
-import {addNewTodoAC, TodolistDomainType, todolistsReducer} from "./todolists-reducer";
+import {TodolistDomainType, todolistsReducer} from "./todolists-reducer";
 import {tasksReducer, TasksStateType} from "./tasks-reducer";
 
 test('is should be equals',()=> {

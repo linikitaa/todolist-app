@@ -1,24 +1,30 @@
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../state/store";
-import {changeFilterAC, changeTodoTitleAC, FilterValuesType, removeTodolistAC} from "../state/todolists-reducer";
-import {useCallback} from "react";
-import {addTaskAC} from "../state/tasks-reducer";
+import {AppDispatchType, useAppDispatch, useAppSelector} from "../state/store";
+import {
+    changeFilterAC,
+    FilterValuesType,
+} from "../state/todolists-reducer";
+import {useCallback, useEffect} from "react";
 import {TaskStatuses, TaskType} from "../api/todolistss-api";
+import {createTaskTC, getTasksTC} from "../state/thunks/tasksThunk";
+import {changeTodoTitleTC, removeTodoTC} from "../state/thunks/todolistThunk";
 
-export const UseTodolistWithRedux = (todoId:string,filter:FilterValuesType) => {
-    let tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[todoId])
-    const dispatch = useDispatch()
+export const UseTodolist = (todoId:string,filter:FilterValuesType) => {
+    let tasks = useAppSelector<TaskType[]>(state => state.tasks[todoId])
+    const dispatch:AppDispatchType = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(getTasksTC(todoId))
+    }, [])
+
 
     const addNewTask = useCallback( (newTitle:string) => {
-        dispatch(addTaskAC(todoId,newTitle))
+        dispatch(createTaskTC(todoId,newTitle))
     },[])
-
     const onChangeTodoTitle = (newValue: string) => {
-        dispatch(changeTodoTitleAC(todoId, newValue))
+        dispatch(changeTodoTitleTC(todoId, newValue))
     }
-
     const removeTodolistHandler = useCallback(() => {
-        dispatch(removeTodolistAC(todoId))
+        dispatch(removeTodoTC(todoId))
     },[])
 
     let tasksForTodolist = tasks

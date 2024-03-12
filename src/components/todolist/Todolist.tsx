@@ -6,11 +6,11 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import {Delete} from "@mui/icons-material";
 
-import {UseTodolistWithRedux} from "../../hooks/useTodolistWithRedux";
 
 import {Task} from "../tasks/Task";
 import {FilterValuesType} from "../../state/todolists-reducer";
 import {memo} from "react";
+import {UseTodolist} from "../../hooks/useTodolist";
 
 type TodolistWithReduxProps = {
     todoId: string
@@ -19,7 +19,7 @@ type TodolistWithReduxProps = {
 
 }
 
-export const TodolistWithRedux = memo(({
+export const Todolist = memo(({
                                                  todoId,
                                                  title,
                                                  filter,
@@ -33,7 +33,8 @@ export const TodolistWithRedux = memo(({
         addNewTask,
         onChangeTodoTitle,
         removeTodolistHandler
-    } = UseTodolistWithRedux(todoId, filter)
+    } = UseTodolist(todoId, filter)
+
 
     return (
         <div className={s.todolist}>
