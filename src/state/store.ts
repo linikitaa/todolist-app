@@ -1,14 +1,16 @@
 import {applyMiddleware, combineReducers, legacy_createStore, UnknownAction} from 'redux'
 import { ThunkDispatch, thunk } from 'redux-thunk'
-import {tasksReducer} from "./tasks-reducer";
-import {todolistsReducer} from "./todolists-reducer";
+import {tasksReducer} from "./reducers/tasks-reducer";
+import {todolistsReducer} from "./reducers/todolists-reducer";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
+import {appReducer} from "./reducers/app-reducer";
 
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
 const rootReducer = combineReducers({
     tasks: tasksReducer,
-    todolist: todolistsReducer
+    todolist: todolistsReducer,
+    app:appReducer
 })
 // непосредственно создаём store
 export const store = legacy_createStore(rootReducer,undefined, applyMiddleware(thunk))

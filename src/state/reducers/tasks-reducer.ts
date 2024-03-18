@@ -1,5 +1,6 @@
 import {AddTodoAC, RemoveTodoAC, SetTodolistsAC} from "./todolists-reducer";
-import {TaskType, UpdateModelTaskType} from "../api/todolistss-api";
+import {TaskType} from "../../api/todolistss-api";
+import {UpdateDomainModelTaskType} from "../thunks/tasksThunk";
 
 
 export type TasksStateType = {
@@ -8,7 +9,7 @@ export type TasksStateType = {
 
 type TasksReducer =
     | RemoveTaskAC
-    | ChangeStatusAC
+    | UpdateTaskAC
     | AddTodoAC
     | RemoveTodoAC
     | SetTodolistsAC
@@ -16,7 +17,7 @@ type TasksReducer =
     | SetTaskAC
 
 type RemoveTaskAC = ReturnType<typeof removeTaskAC>
-type ChangeStatusAC = ReturnType<typeof updateTaskAC>
+type UpdateTaskAC = ReturnType<typeof updateTaskAC>
 type SetTasksAC = ReturnType<typeof setTasksAC>
 type SetTaskAC = ReturnType<typeof setTaskAC>
 
@@ -27,9 +28,9 @@ export const removeTaskAC = (todoId: string, taskId: string) => {
         payload: {todoId, taskId}
     } as const
 }
-export const updateTaskAC = (todoId: string, taskId: string, model: UpdateModelTaskType) => {
+export const updateTaskAC = (todoId: string, taskId: string, model: UpdateDomainModelTaskType) => {
     return {
-        type: 'CHANGE-STATUS',
+        type: 'UPDATE-TASK',
         payload: {todoId, taskId, model}
     } as const
 }
@@ -50,21 +51,17 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Tasks
                 [action.payload.todoId]: state[action.payload.todoId].filter(el => el.id !== action.payload.taskId)
             }
         }
-        case 'CHANGE-STATUS': {
-            return {
-                ...state,
-                [action.payload.todoId]: state[action.payload.todoId].map(el =>
-                    el.id === action.payload.taskId ? { ...el, status: action.payload.model.status } : el
-                )
-            };
-        }
+        case 'UPDATE-TASK':
+            return {...state, [action.payload.todoId]:state[action.payload.todoId]
+                    .map((tl)=>  tl.id === action.payload.taskId
+                        ? {...tl, ...action.payload.model} : tl)}
         case 'ADD-TODO': {
             return {...state, [action.payload.todolist.id]: []}
         }
         case 'REMOVE-TODOLIST' : {
             const copyState = {...state}
             delete copyState[action.payload.todoId]
-            return copyState
+            return {...state}
         }
         case 'SET-TODO' : {
             const stateCopy = {...state}

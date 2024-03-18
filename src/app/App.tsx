@@ -1,5 +1,5 @@
-import {AddItemForm} from "./addItemForm/AddItemForm";
-import {Todolist} from "./todolist/Todolist";
+import {AddItemForm} from "../components/addItemForm/AddItemForm";
+import {Todolist} from "../components/todolist/Todolist";
 
 import IconButton from '@mui/material/IconButton';
 import AppBar from '@mui/material/AppBar';
@@ -7,14 +7,16 @@ import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Toolbar from '@mui/material/Toolbar';
-import {Typography} from "@mui/material";
+import Typography from "@mui/material/Typography";
+import LinearProgress from "@mui/material/LinearProgress";
 import {Menu} from "@mui/icons-material";
 import {UseApp} from "../hooks/UseApp";
+import {ErrorSnackbar} from "../components/ErrorSnackbar";
 
 
 function App() {
 
-    const { todolist, addNewTodo} = UseApp()
+    const { todolist, addNewTodo,status} = UseApp()
 
     return (
         <div className="App">
@@ -28,6 +30,9 @@ function App() {
                     </Typography>
                 </Toolbar>
             </AppBar>
+            {
+                status === 'loading' && <LinearProgress />
+            }
             <Container fixed>
                 <Grid container style={{padding:'20px 0 20px 0'}}>
                     <AddItemForm callBack={addNewTodo} />
@@ -40,9 +45,7 @@ function App() {
                                 <Grid item key={tl.id}>
                                     <Paper style={{padding:'10px'}}>
                                         <Todolist
-                                            todoId={tl.id}
-                                            title={tl.title}
-                                            filter={tl.filter}
+                                            todolist={tl}
                                         />
                                     </Paper>
                                 </Grid>
@@ -51,7 +54,7 @@ function App() {
                     }
                 </Grid>
             </Container>
-
+            <ErrorSnackbar/>
         </div>
     );
 }

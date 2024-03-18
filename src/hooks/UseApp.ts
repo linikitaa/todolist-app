@@ -1,11 +1,11 @@
 import {useAppDispatch, useAppSelector} from "../state/store";
-import {TodolistDomainType} from "../state/todolists-reducer";
+import {TodolistDomainType} from "../state/reducers/todolists-reducer";
 import {useCallback, useEffect} from "react";
 import {addTodoTC, getTodoTC} from "../state/thunks/todolistThunk";
 
 export const UseApp = () => {
     let todolist = useAppSelector<Array<TodolistDomainType>>(state=> state.todolist)
-
+    let status = useAppSelector(state=> state.app.status)
     const dispatch = useAppDispatch()
 
     useEffect(() => {
@@ -19,6 +19,7 @@ export const UseApp = () => {
 
     return {
         todolist,
-        addNewTodo
+        addNewTodo,
+        status
     }
 }

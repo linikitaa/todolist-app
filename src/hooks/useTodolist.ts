@@ -2,7 +2,7 @@ import {AppDispatchType, useAppDispatch, useAppSelector} from "../state/store";
 import {
     changeFilterAC,
     FilterValuesType,
-} from "../state/todolists-reducer";
+} from "../state/reducers/todolists-reducer";
 import {useCallback, useEffect} from "react";
 import {TaskStatuses, TaskType} from "../api/todolistss-api";
 import {createTaskTC, getTasksTC} from "../state/thunks/tasksThunk";

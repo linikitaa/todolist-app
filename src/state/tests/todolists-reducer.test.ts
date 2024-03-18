@@ -5,15 +5,15 @@ import {
     changeTodoTitleAC, FilterValuesType,
     TodolistDomainType,
     todolistsReducer
-} from "./todolists-reducer";
+} from "../reducers/todolists-reducer";
 
 let todolistId1 = v1();
 let todolistId2 = v1();
 
 
 const startState: TodolistDomainType[] = [
-    {id: todolistId1, title: "What to learn", filter: "all",order:0,addedDate:''},
-    {id: todolistId2, title: "What to buy", filter: "all",order:0,addedDate:''}
+    {id: todolistId1, title: "What to learn", filter: "all",entityStatus:'idle',order:0,addedDate:''},
+    {id: todolistId2, title: "What to buy", filter: "all",entityStatus:'idle',order:0,addedDate:''}
 ]
 
 test('correct todolist should be removed', () => {

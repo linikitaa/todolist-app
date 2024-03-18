@@ -8,22 +8,17 @@ import {Delete} from "@mui/icons-material";
 
 
 import {Task} from "../tasks/Task";
-import {FilterValuesType} from "../../state/todolists-reducer";
+import {TodolistDomainType} from "../../state/reducers/todolists-reducer";
 import {memo} from "react";
 import {UseTodolist} from "../../hooks/useTodolist";
 
 type TodolistWithReduxProps = {
-    todoId: string
-    title: string
-    filter: FilterValuesType
-
+    todolist:TodolistDomainType
 }
 
 export const Todolist = memo(({
-                                                 todoId,
-                                                 title,
-                                                 filter,
-                                             }: TodolistWithReduxProps) => {
+                                  todolist
+                              }: TodolistWithReduxProps) => {
 
     const {
         tasksForTodolist,
@@ -33,38 +28,40 @@ export const Todolist = memo(({
         addNewTask,
         onChangeTodoTitle,
         removeTodolistHandler
-    } = UseTodolist(todoId, filter)
+    } = UseTodolist(todolist.id, todolist.filter)
 
 
     return (
         <div className={s.todolist}>
             <h3><EditableSpan
-                title={title}
+                title={todolist.title}
                 onChange={onChangeTodoTitle}/>
                 <IconButton
                     color="error"
-                    onClick={removeTodolistHandler}>
+                    onClick={removeTodolistHandler}
+                    disabled={todolist.entityStatus === 'loading'}
+                >
                     <Delete/>
                 </IconButton>
             </h3>
             <AddItemForm callBack={addNewTask}/>
             <Task tasksForTodolist={tasksForTodolist}
-                  todoId={todoId}
+                  todoId={todolist.id}
             />
             <div className={s.filterWrap}>
                 <Button
                     color={"info"}
-                    variant={filter === 'all' ? 'contained' : 'text'}
+                    variant={todolist.filter === 'all' ? 'contained' : 'text'}
                     onClick={onAllClickHandler}>All
                 </Button>
                 <Button
                     color={"success"}
-                    variant={filter === 'active' ? 'contained' : 'text'}
+                    variant={todolist.filter === 'active' ? 'contained' : 'text'}
                     onClick={onActiveClickHandler}>Active
                 </Button>
                 <Button
                     color={'warning'}
-                    variant={filter === 'completed' ? 'contained' : 'text'}
+                    variant={todolist.filter === 'completed' ? 'contained' : 'text'}
                     onClick={onCompletedClickHandler}>Completed
                 </Button>
 
